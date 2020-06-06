@@ -46,6 +46,9 @@ const Dashboard: React.FC = () => {
                     <h1>Games</h1>
                     <select onChange={handleSortProducts}>
                         <option value="Mais populares">Mais populares</option>
+                        <option value="Mais populares">Maior preço</option>
+                        <option value="Mais populares">Menor preço</option>
+                        <option value="Mais populares">Ordem alfabética </option>
                     </select>
                 </ProductsHeader>
                 <ProductList>

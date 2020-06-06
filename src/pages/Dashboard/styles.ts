@@ -26,15 +26,14 @@ select {
 `
 
 export const ProductList = styled.ul`
-
 display: flex;
+flex-wrap: wrap;
   
   li {
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, minmax(0, 100%));
   grid-gap: 10px;
-    padding: 20px;
     height: 200px;
     width: 200px;
     margin-left: 30px;
@@ -43,7 +42,6 @@ display: flex;
 `;
 
 export const Product = styled.div`
- background-color: #EEEEEE;
 display: flex;
 padding: 16px 16px;
 border-radius: 5px;
@@ -64,8 +62,14 @@ export const ProductTitle = styled.h2`
   background-color: yellow;
 `;
 
+export const ProductPrice = styled.p`
+
+font-size: 16px;
+color: blue;
+
+`
+
 export const Cart = styled.div`
 height: 200px;
 width: 30%;
-background-color: red;
 `;
