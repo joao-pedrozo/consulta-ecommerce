@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './pages/Dashboard';
+import Dashboard from './pages/Dashboard';
 import GlobalStyles from './styles/global'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Dashboard />
     <GlobalStyles/>
   </React.StrictMode>
   ,
