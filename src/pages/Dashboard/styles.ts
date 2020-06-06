@@ -26,48 +26,52 @@ select {
 `
 
 export const ProductList = styled.ul`
+
 display: flex;
 flex-wrap: wrap;
-  
-  li {
 
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 100%));
-  grid-gap: 10px;
-    height: 200px;
-    width: 200px;
-    margin-left: 30px;
+li{
+  list-style: none;
+  margin: 32px 32px;
+}
 
-  } 
+
 `;
 
-export const Product = styled.div`
+export const ProductContainer = styled.div`
 display: flex;
-padding: 16px 16px;
-border-radius: 5px;
-margin: 8px;
+align-items: center;
+justify-content: center;
+background-color: red;
+flex-direction: column;
 
-`;
+svg {
+  cursor: pointer;
+}
 
-export const ProductImage = styled.img`
-  height: 122px;
-  width: 122px;
-  align-self: center;
-`;
+h2{
 
-export const ProductTitle = styled.h2`
-  font-size: 14px;
-  margin-top: 10px;
-  display: block;
-  background-color: yellow;
-`;
-
-export const ProductPrice = styled.p`
-
+text-align: center;
 font-size: 16px;
-color: blue;
 
-`
+}
+
+`;
+
+export const ProductImageContainer = styled.div`
+display: flex;
+width: 200px;
+height: 200px;
+justify-content: center;
+align-items: center;
+
+img {
+  
+}
+
+`;
+
+
 
 export const Cart = styled.div`
 height: 200px;

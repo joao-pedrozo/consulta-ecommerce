@@ -6,12 +6,15 @@ import {
     Cart,
     ProductsHeader,
     ProductList,
-    Product,
-    ProductImage,
-    ProductTitle
+    ProductContainer,
+    ProductImageContainer,
 } from './styles'
 
+import { useCart } from '../../hooks/cart'
+
+import { FiPlus } from 'react-icons/fi'
 import productList from '../../services/products.json'
+import formatValue from '../../utils/formatValue'
 
 
 interface Product {
@@ -23,7 +26,8 @@ interface Product {
 }
 
 const Dashboard: React.FC = () => {
-
+    console.log('aqui')
+    const { addToCart } = useCart();
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
@@ -35,7 +39,11 @@ const Dashboard: React.FC = () => {
     }, [products]);
 
     function handleSortProducts() {
-        console.log('a')
+
+    }
+
+    function handleAddToCart(item: Product): void {
+        addToCart(item)
     }
 
 
@@ -52,17 +60,20 @@ const Dashboard: React.FC = () => {
                     </select>
                 </ProductsHeader>
                 <ProductList>
-                    {products.map(product => (
-                        <Product>
-                            <ul>
-                                <li>
-                                    <li key={product.id}>
-                                        <ProductImage src={require(`../../assets/${product.image}`)} />
-                                    </li>
-                                </li>
-                            </ul>
-                        </Product>
-                    ))}
+                    <ul>
+                        {products.map(product => (
+                            <li key={product.id}>
+                                <ProductContainer>
+                                    <ProductImageContainer>
+                                        <img src={require(`../../assets/${product.image}`)} alt="" />
+                                    </ProductImageContainer>
+                                    <h2>{product.name}</h2>
+                                    <h2>{formatValue(product.price)}</h2>
+                                    <FiPlus onClick={() => handleAddToCart(product)} />
+                                </ProductContainer>
+                            </li>
+                        ))}
+                    </ul>
                 </ProductList>
             </ProductsContainer>
 
