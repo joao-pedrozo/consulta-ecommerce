@@ -8,7 +8,9 @@ const AppProvider: React.FC = ({ children }) => {
 
     return (
         <CartProvider>
-            <Dashboard />
+            <Dashboard>
+                {children}
+            </Dashboard>
             <GlobalStyles />
         </CartProvider>
     )

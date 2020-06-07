@@ -12,6 +12,7 @@ height: 200px;
 width: 70%;
 background-color: grey;
 margin-right: 30px;
+
 `;
 
 export const ProductsHeader = styled.div`
@@ -28,7 +29,7 @@ select {
 export const ProductList = styled.ul`
 
 display: flex;
-flex-wrap: wrap;
+
 
 li{
   list-style: none;

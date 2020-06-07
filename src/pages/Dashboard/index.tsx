@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {
     Container,
@@ -10,9 +11,8 @@ import {
     ProductImageContainer,
 } from './styles'
 
-import { useCart } from '../../hooks/cart'
 
-import { FiPlus } from 'react-icons/fi'
+import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import productList from '../../services/products.json'
 import formatValue from '../../utils/formatValue'
 
@@ -26,10 +26,8 @@ interface Product {
 }
 
 const Dashboard: React.FC = () => {
-    console.log('aqui')
-    const { addToCart } = useCart();
     const [products, setProducts] = useState<Product[]>([]);
-
+    const [cartProducts, setcartProducts] = useState<Product[]>([]);
     useEffect(() => {
         async function loadProducts(): Promise<void> {
             setProducts(productList)
@@ -38,13 +36,33 @@ const Dashboard: React.FC = () => {
         loadProducts();
     }, [products]);
 
-    function handleSortProducts() {
+    const addToCart = useCallback(
 
-    }
+        async product => {
+            const productAlreadyInCart = cartProducts.find(p => p.id === product.id)
 
-    function handleAddToCart(item: Product): void {
-        addToCart(item)
-    }
+            if (!productAlreadyInCart) {
+                setcartProducts([...cartProducts, product])
+                console.log(cartProducts)
+            }
+            await AsyncStorage.setItem(
+                '@ConsultaGames:cart',
+                JSON.stringify(cartProducts),
+            );
+
+        }, [cartProducts]
+    )
+
+    const removeFromCart = useCallback(
+        async product => {
+            const productAlreadyInCartIndex = cartProducts.findIndex(p => p.id === product.id);
+            if (productAlreadyInCartIndex !== -1) {
+                cartProducts.splice(productAlreadyInCartIndex, 1)
+                setcartProducts([...cartProducts]);
+            }
+
+        }, [cartProducts]
+    )
 
 
     return (
@@ -52,7 +70,7 @@ const Dashboard: React.FC = () => {
             <ProductsContainer>
                 <ProductsHeader>
                     <h1>Games</h1>
-                    <select onChange={handleSortProducts}>
+                    <select>
                         <option value="Mais populares">Mais populares</option>
                         <option value="Mais populares">Maior preço</option>
                         <option value="Mais populares">Menor preço</option>
@@ -69,7 +87,8 @@ const Dashboard: React.FC = () => {
                                     </ProductImageContainer>
                                     <h2>{product.name}</h2>
                                     <h2>{formatValue(product.price)}</h2>
-                                    <FiPlus onClick={() => handleAddToCart(product)} />
+                                    <FiPlus onClick={() => { addToCart(product) }} />
+                                    <FiTrash2 onClick={() => { removeFromCart(product) }} />
                                 </ProductContainer>
                             </li>
                         ))}
@@ -78,7 +97,11 @@ const Dashboard: React.FC = () => {
             </ProductsContainer>
 
             <Cart>
-
+                <div>
+                    {cartProducts.map(cartProduct => (
+                        <h1 key={cartProduct.id}>{cartProduct.name}</h1>
+                    ))}
+                </div>
             </Cart>
 
         </Container>
