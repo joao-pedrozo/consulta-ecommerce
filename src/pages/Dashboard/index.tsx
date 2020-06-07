@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {
@@ -15,6 +15,7 @@ import {
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import productList from '../../services/products.json'
 import formatValue from '../../utils/formatValue'
+import { format } from 'path';
 
 
 interface Product {
@@ -25,9 +26,11 @@ interface Product {
     image: string;
 }
 
+
 const Dashboard: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [cartProducts, setcartProducts] = useState<Product[]>([]);
+
     useEffect(() => {
         async function loadProducts(): Promise<void> {
             setProducts(productList)
@@ -35,6 +38,32 @@ const Dashboard: React.FC = () => {
 
         loadProducts();
     }, [products]);
+
+    const cartSubTotal = useMemo(() => {
+        const total = cartProducts.reduce((acomulator, cartProduct) => {
+            return acomulator + cartProduct.price;
+        }, 0);
+
+        return total;
+    }, [cartProducts]);
+
+    const cartTotal = useMemo(() => {
+        const total = cartProducts.reduce((acomulator, cartProduct) => {
+            return acomulator + cartProduct.price;
+        }, 0);
+
+        return total;
+    }, [cartProducts]);
+
+    const cartShippingPrice = useMemo(() => {
+        const total = cartProducts.reduce((acomulator) => {
+            return acomulator + 10;
+        }, 0);
+
+        return cartTotal>250 ? 0 : total;
+
+        
+    }, [cartProducts, cartTotal]);
 
     const addToCart = useCallback(
 
@@ -101,6 +130,9 @@ const Dashboard: React.FC = () => {
                     {cartProducts.map(cartProduct => (
                         <h1 key={cartProduct.id}>{cartProduct.name}</h1>
                     ))}
+                    <h1>SubTotal: {cartSubTotal}</h1>
+                    <h1>Frete: {cartShippingPrice}</h1>
+                    <h1>Subtotal: </h1>
                 </div>
             </Cart>
 
