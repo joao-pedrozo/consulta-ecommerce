@@ -29,7 +29,10 @@ select {
 export const ProductList = styled.ul`
 
 display: flex;
-
+flex-wrap: wrap;
+  align-items: center;
+  justify-content: start;
+  flex-direction: initial;
 
 li{
   list-style: none;
@@ -51,10 +54,8 @@ svg {
 }
 
 h2{
-
 text-align: center;
 font-size: 16px;
-
 }
 
 `;

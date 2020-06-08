@@ -15,7 +15,6 @@ import {
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import productList from '../../services/products.json'
 import formatValue from '../../utils/formatValue'
-import { format } from 'path';
 
 
 interface Product {
@@ -60,13 +59,10 @@ const Dashboard: React.FC = () => {
             return acomulator + 10;
         }, 0);
 
-        return cartTotal>250 ? 0 : total;
-
-        
+        return cartTotal > 250 ? 0 : total;
     }, [cartProducts, cartTotal]);
 
     const addToCart = useCallback(
-
         async product => {
             const productAlreadyInCart = cartProducts.find(p => p.id === product.id)
 
@@ -82,16 +78,50 @@ const Dashboard: React.FC = () => {
         }, [cartProducts]
     )
 
-    const removeFromCart = useCallback(
-        async product => {
-            const productAlreadyInCartIndex = cartProducts.findIndex(p => p.id === product.id);
-            if (productAlreadyInCartIndex !== -1) {
-                cartProducts.splice(productAlreadyInCartIndex, 1)
-                setcartProducts([...cartProducts]);
+
+    const sortProducts = useCallback(
+        async option => {
+            let sortedProducts = [...products];
+            function sortByPopularity(product1: Product, product2: Product) {
+                return product1.score > product2.score ? -1 : 1;
             }
 
-        }, [cartProducts]
+            function sortByLowestPrice(product1: Product, product2: Product) {
+                return product1.price > product2.price ? 1 : -1;
+            }
+
+            function sortByHighestPrice(product1: Product, product2: Product) {
+                return product1.price > product2.price ? -1 : 1;
+            }
+
+            function sortByAlphabeticOrder(product1: Product, product2: Product) {
+                const comparableProduct1 = product1.name.toLocaleUpperCase();
+                const comparableProduct2 = product2.name.toLocaleUpperCase();
+                return comparableProduct1 > comparableProduct2 ? 1 : -1;
+            }
+
+            if (option === 'Maior preço') {
+                sortedProducts.sort(sortByHighestPrice)
+            }
+            else
+                if (option === 'Menor preço') {
+                    sortedProducts.sort(sortByLowestPrice)
+
+                }
+                else
+                    if (option === 'Ordem alfabética') {
+                        sortedProducts.sort(sortByAlphabeticOrder)
+                    } else {
+                        sortedProducts.sort(sortByPopularity)
+                    }
+                    console.log(sortedProducts)
+            setProducts(sortedProducts)
+        }, [products]
     )
+
+    const removeFromCart = useCallback(async product => {
+        setcartProducts(products => products.filter(p => p.id !== product.id));
+    }, []);
 
 
     return (
@@ -99,11 +129,11 @@ const Dashboard: React.FC = () => {
             <ProductsContainer>
                 <ProductsHeader>
                     <h1>Games</h1>
-                    <select>
+                    <select onChange={e => sortProducts(e.target.value)}>
                         <option value="Mais populares">Mais populares</option>
-                        <option value="Mais populares">Maior preço</option>
-                        <option value="Mais populares">Menor preço</option>
-                        <option value="Mais populares">Ordem alfabética </option>
+                        <option value="Maior preço">Maior preço</option>
+                        <option value="Menor preço">Menor preço</option>
+                        <option value="Ordem alfabética">Ordem alfabética</option>
                     </select>
                 </ProductsHeader>
                 <ProductList>
