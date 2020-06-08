@@ -68,20 +68,14 @@ const Dashboard: React.FC = () => {
 
             if (!productAlreadyInCart) {
                 setcartProducts([...cartProducts, product])
-                console.log(cartProducts)
             }
-            await AsyncStorage.setItem(
-                '@ConsultaGames:cart',
-                JSON.stringify(cartProducts),
-            );
 
         }, [cartProducts]
     )
 
-
     const sortProducts = useCallback(
         async option => {
-            let sortedProducts = [...products];
+            let sortedProducts = products;
             function sortByPopularity(product1: Product, product2: Product) {
                 return product1.score > product2.score ? -1 : 1;
             }
@@ -114,8 +108,7 @@ const Dashboard: React.FC = () => {
                     } else {
                         sortedProducts.sort(sortByPopularity)
                     }
-                    console.log(sortedProducts)
-            setProducts(sortedProducts)
+            setProducts([...sortedProducts])
         }, [products]
     )
 
@@ -146,7 +139,7 @@ const Dashboard: React.FC = () => {
                                     </ProductImageContainer>
                                     <h2>{product.name}</h2>
                                     <h2>{formatValue(product.price)}</h2>
-                                    <FiPlus onClick={() => { addToCart(product) }} />
+                                    <h2 onClick={() => { addToCart(product) }}>comprar</h2>
                                     <FiTrash2 onClick={() => { removeFromCart(product) }} />
                                 </ProductContainer>
                             </li>

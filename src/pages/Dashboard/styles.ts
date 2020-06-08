@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 
 export const Container = styled.div`
-background-color: #e6e6e6;
 height: 100vh;
 margin: 50px 70px;
 display: flex;
@@ -10,14 +9,12 @@ display: flex;
 export const ProductsContainer = styled.div`
 height: 200px;
 width: 70%;
-background-color: grey;
 margin-right: 30px;
 
 `;
 
 export const ProductsHeader = styled.div`
 
-background-color: blue;
 display: flex;
 justify-content: space-between;
 
@@ -26,17 +23,49 @@ select {
 }
 `
 
+const appearFromleft = keyframes`
+from{
+    opacity: 0;
+}
+to {
+    opacity: 1;
+}
+`;
+
 export const ProductList = styled.ul`
 
-display: flex;
-flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: start;
-  flex-direction: initial;
+
+  ul{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
 
 li{
+ 
   list-style: none;
-  margin: 32px 32px;
+  margin: 32px 32px 60px 32px;
+  height: 230px;
+  width: 260px;
+
+  h2:nth-child(4){
+    display: none;
+  }
+
+  &:hover{
+  
+    h2:nth-child(4){
+    display: block;
+  }
+  h2:nth-child(3), h2:nth-child(2){
+    display: none;
+  }
+
+  }
 }
 
 
@@ -46,7 +75,7 @@ export const ProductContainer = styled.div`
 display: flex;
 align-items: center;
 justify-content: center;
-background-color: red;
+
 flex-direction: column;
 
 svg {
@@ -64,6 +93,8 @@ export const ProductImageContainer = styled.div`
 display: flex;
 width: 200px;
 height: 200px;
+background-color: #EEEEEE;
+padding: 120px 150px;
 justify-content: center;
 align-items: center;
 
@@ -76,6 +107,7 @@ img {
 
 
 export const Cart = styled.div`
-height: 200px;
-width: 30%;
+width: 262px;
+height: 325px;
+border: 3px solid #E1E1E1;
 `;
