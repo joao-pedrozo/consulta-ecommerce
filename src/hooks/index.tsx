@@ -7,12 +7,12 @@ import { CartProvider } from './cart'
 const AppProvider: React.FC = ({ children }) => {
 
     return (
-        <CartProvider>
+           <>
             <Dashboard>
                 {children}
             </Dashboard>
             <GlobalStyles />
-        </CartProvider>
+           </>
     )
 }
 

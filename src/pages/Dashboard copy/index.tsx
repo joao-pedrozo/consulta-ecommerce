@@ -1,35 +1,25 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
-import AsyncStorage from '@react-native-community/async-storage';
-
 import {
     Container,
+    ProductsContainer,
     Cart,
-    CartDescription,
-    CartList,
-    CartProduct,
-    CartTitle,
+    ProductsHeader,
+    ProductList,
+    ProductContainer,
+    ProductImageContainer,
+    CartHeaderText,
+    EmptyCart,
+    EmptyCartText,
+    EmptylessCart,
     ProductCartIconArea,
     ProductCartImage,
     ProductCartImageContainer,
     ProductCartInfo,
-    CartHeader,
-    CartPaymentDetailsArea,
-    CartPaymentDetailsData,
-    CartPaymentButton,
-    ProductContainer,
-    ProductImageContainer,
-    ProductList,
-    ProductsContainer,
-    ProductsHeader,
-    CartContentContainer,
-    EmptyCart,
-    EmptyCartText,
-    EmptyCartContent
-} from './styles'
+    } from './styles'
 
 
-import { FiPlus, FiTrash2, FiShoppingCart, FiXCircle } from 'react-icons/fi'
+import { FiPlus, FiTrash2, FiShoppingCart} from 'react-icons/fi'
 import productList from '../../services/products.json'
 import formatValue from '../../utils/formatValue'
 
@@ -89,10 +79,6 @@ const Dashboard: React.FC = () => {
         }, [cartProducts]
     )
 
-    const removeFromCart = useCallback(async product => {
-        setcartProducts(products => products.filter(p => p.id !== product.id));
-    }, []);
-
     const sortProducts = useCallback(
         async option => {
             let sortedProducts = products;
@@ -132,9 +118,13 @@ const Dashboard: React.FC = () => {
         }, [products]
     )
 
+    const removeFromCart = useCallback(async product => {
+        setcartProducts(products => products.filter(p => p.id !== product.id));
+    }, []);
+
+
     return (
         <Container>
-
             <ProductsContainer>
                 <ProductsHeader>
                     <h1>Games</h1>
@@ -148,77 +138,97 @@ const Dashboard: React.FC = () => {
                 <ProductList>
                     <ul>
                         {products.map(product => (
-                            <li key={product.id} onClick={() => { console.log(cartProducts.length) }}>
+                            <li key={product.id} onClick={() => {console.log(cartProducts.length)}}>
                                 <ProductContainer>
                                     <ProductImageContainer>
                                         <img src={require(`../../assets/${product.image}`)} alt="" />
                                     </ProductImageContainer>
-                                    <span>{product.name}</span>
-                                    <span>{formatValue(product.price)}</span>
-                                    <span onClick={() => { addToCart(product) }}>Adicionar ao carrinho</span>
+                                    <h2>{product.name}</h2>
+                                    <h2>{formatValue(product.price)}</h2>
+                                    <h2 onClick={() => { addToCart(product) }}>comprar</h2>
+                                    <FiTrash2 onClick={() => { removeFromCart(product) }} />
                                 </ProductContainer>
                             </li>
                         ))}
                     </ul>
                 </ProductList>
             </ProductsContainer>
+            
+            <Cart>
+             <CartHeaderText>Carrinho</CartHeaderText>
+             {/* <EmptyCart>
+               <FiShoppingCart size={80}/>
+               <EmptyCartText>Até o momento, o seu carrinho está vazio.</EmptyCartText>
+             </EmptyCart> */}
 
-            {
-                cartProducts.length === 0 ?
-                  <EmptyCart>
-                      
-                      <EmptyCartContent>
-                <FiShoppingCart size={80} color={'#E1E1E1'}/>
-                <EmptyCartText>Até o momento, o seu carrinho está vazio.</EmptyCartText>
-                </EmptyCartContent>
-              </EmptyCart> 
-              :
-                <Cart>
-                <CartContentContainer>
-                    <CartHeader>
-                        <CartTitle>Carrinho</CartTitle>
-                        <CartDescription>{cartProducts.length===1 ? `(${cartProducts.length} produto)` : `(${cartProducts.length} produtos)`} </CartDescription>
-                    </CartHeader>
-                    <CartList>
-                        {cartProducts.map(cartProduct => (
-                            <CartProduct>
-                            <ProductCartImageContainer>
-                                <ProductCartImage src={require(`../../assets/${cartProduct.image}`)} />
-                            </ProductCartImageContainer>
-                            <ProductCartInfo>
-                        <p>{cartProduct.name}</p>
-                        <strong>{formatValue(cartProduct.price)}</strong>
-                            </ProductCartInfo>
-                            <ProductCartIconArea>
-                                <FiXCircle color={'#54A3FF'} onClick={() => {removeFromCart(cartProduct)}}/>
-                            </ProductCartIconArea>
-                        </CartProduct>
-                        ))}
-                    </CartList>
-                    <CartPaymentDetailsArea>
-                        <CartPaymentDetailsData>
-                            <p>Subtotal</p>
-                        <strong>{formatValue(cartSubTotal)}</strong>
-                        </CartPaymentDetailsData>
-                        <CartPaymentDetailsData>
-                            <p>Frete</p>
-                            <strong> {formatValue(cartShippingPrice)}</strong>
-                        </CartPaymentDetailsData>
-                        <CartPaymentDetailsData>
-                            <p>Total</p>
-                            <strong> {formatValue(cartTotal+ cartShippingPrice)}</strong>
-                        </CartPaymentDetailsData>
-                        <CartPaymentButton>
-                            Finalizar compra
-                    </CartPaymentButton>
-                    </CartPaymentDetailsArea>
-                </CartContentContainer>
+             <EmptylessCart>
+                 <ul>
+                     <li>
+                     <ProductCartImageContainer>
+                     <ProductCartImage src={require('../../assets/fifa-18.png')}/>
+                     </ProductCartImageContainer>
+                     
+                     <ProductCartInfo>
+                         <p>FIFA 18</p>
+                         <b>R$ 230,50</b>
+                     </ProductCartInfo>
+                     </li>
+                     <li>
+                     <ProductCartImageContainer>
+                     <ProductCartImage src={require('../../assets/fifa-18.png')}/>
+                     </ProductCartImageContainer>
+                     
+                     <ProductCartInfo>
+                         <p>FIFA 18</p>
+                         <b>R$ 230,50</b>
+                     </ProductCartInfo>
+                     </li>
+                     <li>
+                     <ProductCartImageContainer>
+                     <ProductCartImage src={require('../../assets/fifa-18.png')}/>
+                     </ProductCartImageContainer>
+                     
+                     <ProductCartInfo>
+                         <p>FIFA 18</p>
+                         <b>R$ 230,50</b>
+                     </ProductCartInfo>
+                     </li>
+                     <li>
+                     <ProductCartImageContainer>
+                     <ProductCartImage src={require('../../assets/fifa-18.png')}/>
+                     </ProductCartImageContainer>
+                     
+                     <ProductCartInfo>
+                         <p>FIFA 18</p>
+                         <b>R$ 230,50</b>
+                     </ProductCartInfo>
+                     </li> 
+                     <li>
+                     <ProductCartImageContainer>
+                     <ProductCartImage src={require('../../assets/fifa-18.png')}/>
+                     </ProductCartImageContainer>
+                     
+                     <ProductCartInfo>
+                         <p>FIFA 18</p>
+                         <b>R$ 230,50</b>
+                     </ProductCartInfo>
+                     </li> 
+                     <li>
+                     <ProductCartImageContainer>
+                     <ProductCartImage src={require('../../assets/fifa-18.png')}/>
+                     </ProductCartImageContainer>
+                     
+                     <ProductCartInfo>
+                         <p>FIFA 18</p>
+                         <b>R$ 230,50</b>
+                     </ProductCartInfo>
+                     </li> 
+                     
+                     
+                 </ul>
+             </EmptylessCart>
             </Cart>
-            }
-
-           
         </Container>
-
     );
 }
 
