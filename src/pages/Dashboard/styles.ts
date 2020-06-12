@@ -1,14 +1,17 @@
 import styled, {keyframes} from 'styled-components';
 
+
+
 export const Container = styled.div`
 height: 100vh;
 margin: 50px 70px;
 display: flex;
+font-family: Arial, Helvetica, sans-serif;
 `
 
 export const ProductsContainer = styled.div`
-height: 200px;
-width: 70%;
+margin-left: 150px;
+width: 1000px;
 margin-right: 30px;
 
 `;
@@ -33,7 +36,6 @@ to {
 `;
 
 export const ProductList = styled.ul`
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,7 +50,7 @@ export const ProductList = styled.ul`
 li{
  
   list-style: none;
-  margin: 32px 32px 60px 32px;
+  margin: 32px 32px 80px 32px;
   height: 230px;
   width: 260px;
 
@@ -75,7 +77,6 @@ export const ProductContainer = styled.div`
 display: flex;
 align-items: center;
 justify-content: center;
-
 flex-direction: column;
 
 svg {
@@ -97,17 +98,33 @@ background-color: #EEEEEE;
 padding: 120px 150px;
 justify-content: center;
 align-items: center;
-
-img {
-  
-}
-
 `;
-
-
 
 export const Cart = styled.div`
 width: 262px;
 height: 325px;
 border: 3px solid #E1E1E1;
+`;
+
+export const CartHeader = styled.p`
+display: block;
+font-weight: bold;
+font-size: 22px;
+margin: 6px; 
+`;
+
+export const EmptyCart = styled.div`
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+opacity: 0.5;
+margin-top: 50px;
+`;
+
+export const EmptyCartText = styled.p`
+font-size: 14px;
+text-align: center;
+margin: 16px 40px;
 `;

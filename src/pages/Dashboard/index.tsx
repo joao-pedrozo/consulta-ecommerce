@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import {
     Container,
@@ -9,10 +8,13 @@ import {
     ProductList,
     ProductContainer,
     ProductImageContainer,
-} from './styles'
+    CartHeader,
+    EmptyCart,
+    EmptyCartText
+    } from './styles'
 
 
-import { FiPlus, FiTrash2 } from 'react-icons/fi'
+import { FiPlus, FiTrash2, FiShoppingCart} from 'react-icons/fi'
 import productList from '../../services/products.json'
 import formatValue from '../../utils/formatValue'
 
@@ -69,7 +71,6 @@ const Dashboard: React.FC = () => {
             if (!productAlreadyInCart) {
                 setcartProducts([...cartProducts, product])
             }
-
         }, [cartProducts]
     )
 
@@ -132,7 +133,7 @@ const Dashboard: React.FC = () => {
                 <ProductList>
                     <ul>
                         {products.map(product => (
-                            <li key={product.id}>
+                            <li key={product.id} onClick={() => {console.log(cartProducts.length)}}>
                                 <ProductContainer>
                                     <ProductImageContainer>
                                         <img src={require(`../../assets/${product.image}`)} alt="" />
@@ -149,14 +150,13 @@ const Dashboard: React.FC = () => {
             </ProductsContainer>
 
             <Cart>
-                <div>
-                    {cartProducts.map(cartProduct => (
-                        <h1 key={cartProduct.id}>{cartProduct.name}</h1>
-                    ))}
-                    <h1>SubTotal: {cartSubTotal}</h1>
-                    <h1>Frete: {cartShippingPrice}</h1>
-                    <h1>Subtotal: </h1>
-                </div>
+             <CartHeader>Carrinho</CartHeader>
+             {/* <EmptyCart>
+               <FiShoppingCart size={80}/>
+               <EmptyCartText>Até o momento, o seu carrinho está vazio.</EmptyCartText>
+             </EmptyCart> */}
+
+             
             </Cart>
 
         </Container>
